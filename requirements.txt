@@ -13,3 +13,4 @@ regex
 lxml
 html5lib
 cssselect
+lxml_html_clean
