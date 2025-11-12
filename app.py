@@ -26,13 +26,11 @@ SIMILARITY_THRESHOLD = 0.68
 nlp = spacy.load("en_core_web_sm")
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-
 # -------------------------------------------
 # UTILS
 # -------------------------------------------
 def clean(text):
     return re.sub(r"\s+", " ", text or "").strip()
-
 
 def fetch_rss(limit=30):
     articles = []
@@ -45,7 +43,6 @@ def fetch_rss(limit=30):
                 "source": parsed.feed.get("title", feed),
                 "published": e.get("published")
             })
-    # Sort newest first
     def dt(e):
         try:
             return dateparser.parse(e["published"])
@@ -53,7 +50,6 @@ def fetch_rss(limit=30):
             return dateparser.parse("1970-01-01")
     articles = sorted(articles, key=dt, reverse=True)
     return articles[:limit]
-
 
 def get_article_text(url):
     try:
@@ -67,7 +63,6 @@ def get_article_text(url):
         except:
             return ""
 
-
 def extract_statements(text):
     doc = nlp(text)
     out = []
@@ -80,7 +75,6 @@ def extract_statements(text):
         out.append(clean(st))
     return out
 
-
 def build_corpus(rss_articles, exclude):
     corpus = []
     for a in rss_articles:
@@ -90,7 +84,6 @@ def build_corpus(rss_articles, exclude):
         if t:
             corpus.append({"url": a["link"], "source": a["source"], "text": t})
     return corpus
-
 
 def cross_reference(statement, corpus):
     out = []
@@ -115,14 +108,12 @@ def cross_reference(statement, corpus):
             })
     return out
 
-
 # -------------------------------------------
 # API ROUTES
 # -------------------------------------------
 @app.get("/")
 def root():
     return {"status": "OK", "endpoints": ["/news"]}
-
 
 @app.get("/news")
 def get_news():
@@ -139,7 +130,6 @@ def get_news():
         statements = extract_statements(text)
         corpus = build_corpus(rss, exclude=a["link"])
 
-        results = []
         corroborated = []
         uncorroborated = []
 
@@ -154,8 +144,6 @@ def get_news():
                 corroborated.append(entry)
             else:
                 uncorroborated.append(entry)
-
-            results.append(entry)
 
         output.append({
             "title": a["title"],
