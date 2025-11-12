@@ -6,7 +6,15 @@ import spacy
 from sentence_transformers import SentenceTransformer, util
 from dateutil import parser as dateparser
 
-app = FastAPI()
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Load the ML models
+    load_models()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 # -------------------------------------------
 # CONFIG
@@ -23,8 +31,15 @@ MAX_ARTICLES = 5
 MIN_SUPPORTING_SOURCES = 2
 SIMILARITY_THRESHOLD = 0.68
 
-nlp = spacy.load("en_core_web_sm")
-embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+nlp = None
+embed_model = None
+
+def load_models():
+    global nlp, embed_model
+    if nlp is None:
+        nlp = spacy.load("en_core_web_sm")
+    if embed_model is None:
+        embed_model = SentenceTransformer("all-MiniLM-L6-v2")
 
 # -------------------------------------------
 # UTILS

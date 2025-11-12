@@ -1,5 +1,9 @@
 # News Cross-Reference API (Free, No API Keys)
 
+[![Render Deploy Status](https://render.com/status/srv-d4aebha4d50c739vb3ng.svg)](https://render.com/deploy?repo=https://github.com/logan-code-del/new_api_scraper/)
+
+**Note:** To get the status badge working, you need to replace `YOUR_SERVICE_ID` in the URL above with your actual Render service ID. You can find this ID in the URL of your service's dashboard on Render (it starts with `srv-`).
+
 This API:
 - Scrapes public RSS news feeds
 - Extracts factual candidate statements
