@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: non-partisan-news-api
+    env: python
+    plan: free
+    buildCommand: |
+      pip install --no-cache-dir -r requirements.txt
+      chmod +x ./build.sh
+      ./build.sh
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /

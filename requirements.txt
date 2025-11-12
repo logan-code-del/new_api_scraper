@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+feedparser
+requests
+newspaper3k
+beautifulsoup4
+spacy
+sentence-transformers
+python-dateutil
+torch
+tqdm
+regex
+lxml
+html5lib
+cssselect
