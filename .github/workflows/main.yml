@@ -1,0 +1,14 @@
+name: Fly Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: superfly/fly-pr-actions-v2@master
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
