@@ -19,7 +19,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Download spacy model
-        run: ./build.sh
+        run: |
+          chmod +x build.sh
+          ./build.sh
 
       - name: Run application
         run: uvicorn app:app --host 0.0.0.0 --port 8000
